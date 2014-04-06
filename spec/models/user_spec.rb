@@ -79,6 +79,11 @@ describe User do
     it { expect(@user).not_to be_valid }
   end
 
+  describe "passwordが短すぎる時" do
+    before { @user.password = @password_confirmation = 'a'*5 }
+    it { expect(@user).to be_valid }
+  end
+
   describe "authenticateメソッドの戻り値" do
     before { @user.save }
     let(:found_user) { User.find_by_email(@user.email) }
