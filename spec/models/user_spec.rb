@@ -14,6 +14,7 @@ describe User do
   specify { expect(@user).to respond_to(:password_digest) }
   specify { expect(@user).to respond_to(:password)}
   specify { expect(@user).to respond_to(:password_confirmation)}
+  specify { expect(@user).to respond_to(:remember_token)}
   specify { expect(@user).to respond_to(:authenticate)}
 
   specify { expect(@user).to be_valid }
@@ -81,7 +82,7 @@ describe User do
 
   describe "passwordが短すぎる時" do
     before { @user.password = @password_confirmation = 'a'*5 }
-    it { expect(@user).to be_valid }
+    it { expect(@user).not_to be_valid }
   end
 
   describe "authenticateメソッドの戻り値" do
@@ -99,6 +100,11 @@ describe User do
       specify { expect(user_for_invalid_password).to be_false }
     end
 
+  end
+
+  describe "remember token" do
+    before { @user.save }
+    it { expect(@user.remember_token).not_to be_blank }
   end
 
 end

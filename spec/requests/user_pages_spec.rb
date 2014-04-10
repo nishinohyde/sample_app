@@ -34,7 +34,17 @@ describe "User pages" do
       end
       it "userが作られる" do
         expect { click_button submit }.to change(User, :count).by(1)
+        expect(page).to have_link('Sign out')
       end
+
+      describe "signout後" do
+        before do
+          click_button submit
+          click_link "Sign out"
+        end
+        it { expect(page).to have_link('Sign in')}
+      end
+
     end
 
   end
