@@ -81,7 +81,7 @@ describe User do
 
   describe "passwordが短すぎる時" do
     before { @user.password = @password_confirmation = 'a'*5 }
-    it { expect(@user).to be_valid }
+    it { expect(@user).not_to be_valid }
   end
 
   describe "authenticateメソッドの戻り値" do
