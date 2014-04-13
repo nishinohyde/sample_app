@@ -43,6 +43,15 @@ describe User do
     end
   end
 
+  describe "大文字小文字の混在した時" do
+    let(:mixed_case_email) { "Foo@ExAMPle.CoM" }
+
+    it "すべて小文字で保存される" do
+      @user.email = mixed_case_email
+      @user.save
+      expect(@user.reload.email).to eq(mixed_case_email.downcase)
+    end
+  end
   describe "emailの形式が正しい時" do
     specify "valid" do
       addresses = %w[user@foo.COM A_US-ER@f.b.org frst.lst@foo.jp a+b@baz.cn]
