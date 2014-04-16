@@ -23,6 +23,12 @@ describe "User pages" do
       it "userが作られない" do
         expect { click_button submit }.not_to change(User, :count)
       end
+
+      describe "submission後" do
+        before { click_button submit }
+        it { expect(page).to have_selector('title',text: "Sign up") }
+        it { expect(page).to have_content('error') }
+      end
     end
 
     describe "正しい情報を与えた時" do
@@ -34,6 +40,13 @@ describe "User pages" do
       end
       it "userが作られる" do
         expect { click_button submit }.to change(User, :count).by(1)
+      end
+      describe "submission後" do
+        before { click_button submit }
+        let(:user) { User.find_by_email('user@example.com')}
+
+        it { expect(page).to have_selector('title',text: user.name) }
+        it { expect(page).to have_selector('div.alert.alert-success', text: 'Welcome') }
       end
     end
 
