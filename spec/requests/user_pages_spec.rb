@@ -40,7 +40,9 @@ describe "User pages" do
       end
       it "userが作られる" do
         expect { click_button submit }.to change(User, :count).by(1)
+        expect(page).to have_link('Sign out')
       end
+
       describe "submission後" do
         before { click_button submit }
         let(:user) { User.find_by_email('user@example.com')}
@@ -48,6 +50,15 @@ describe "User pages" do
         it { expect(page).to have_selector('title',text: user.name) }
         it { expect(page).to have_selector('div.alert.alert-success', text: 'Welcome') }
       end
+
+      describe "signout後" do
+        before do
+          click_button submit
+          click_link "Sign out"
+        end
+        it { expect(page).to have_link('Sign in')}
+      end
+
     end
 
   end
